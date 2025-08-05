@@ -1,0 +1,66 @@
+{
+  "add_hero": [
+    {
+      "params": {
+        "name": "batman",
+        "single_mode":  false
+      },
+      "status":  200
+    },
+    {
+      "params": {
+        "name": "superman",
+        "single_mode":  true
+      },
+      "status":  400
+    },
+    {
+      "params": {
+        "name": "Cyborg Superman",
+        "single_mode":  true
+      },
+      "status":  200
+    },
+    {
+      "params": {
+        "name": "iron man",
+        "single_mode":  true
+      },
+      "status":  200
+    },
+    {
+      "params": {
+        "name": "123456789",
+        "single_mode":  false
+      },
+      "status":  404
+    },
+    {
+      "params": {
+        "name": "123456789",
+        "single_mode":  true
+      },
+      "status":  404
+    }
+  ],
+  "get_hero": [
+    {
+      "params": {
+        "name": "BATMAN"
+      },
+      "status": 200
+    },
+    {
+      "params": {
+        "intelligence": "gte:1"
+      },
+      "status": 200
+    },
+    {
+      "params": {
+        "intelligence": "lte:1"
+      },
+      "status": 404
+    }
+  ]
+}

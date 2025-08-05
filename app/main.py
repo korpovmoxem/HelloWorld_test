@@ -1,11 +1,31 @@
+from contextlib import asynccontextmanager
+
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 
 from src.routes import router
+from src.utils.database_funcs import create_tables
 
 
-app = FastAPI()
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    print('Запуск веб-приложения')
+    print('Инициализация БД')
+    await create_tables()
+    yield
+
+
+app = FastAPI(lifespan=lifespan)
 app.include_router(router)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=['*'],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 if __name__ == '__main__':
