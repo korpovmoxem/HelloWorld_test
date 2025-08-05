@@ -46,15 +46,13 @@ async def add_hero(
 
     # Проверка на уже записанных героев в БД
     query = (
-        select(Hero.name)
-        .where(
-            Hero.name not in [hero_model.name for hero_model in hero_models],
-            Hero.full_name not in [hero_model.full_name for hero_model in hero_models],
+        select(Hero.external_id)
+        .where(Hero.external_id not in [hero_model.id for hero_model in hero_models],
         )
     )
     rows = await session.execute(query)
-    existing_hero_names = rows.scalars().all()
-    new_heroes = list(filter(lambda hero: hero.name not in existing_hero_names, hero_models))
+    existing_hero = rows.scalars().all()
+    new_heroes = list(filter(lambda hero: hero.id not in existing_hero, hero_models))
 
     # Запись новых героев
     new_hero_rows = [
