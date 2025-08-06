@@ -100,6 +100,7 @@ async def get_hero(
             conditions.append(func.lower(Hero.name) == value.lower())
         else:
             cond_type, cond_value = value.split(':')
+            cond_value = int(cond_value)
             sql_attr = getattr(Hero, field, None)
             match cond_type:
                 case 'eq':

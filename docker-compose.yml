@@ -15,7 +15,7 @@ services:
   app:
     build: .
     container_name: app
-    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+    command: sh -c "pytest /app/app/tests -v --tb=short && uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload"
     volumes:
       - ./app:/app/app
     ports:
@@ -23,31 +23,13 @@ services:
     depends_on:
       - db
     environment:
-      SUPERHERO_API_KEY:
-      DB_NAME: superhero
-      DB_URL: localhost
+      PYTHONPATH: /app
+      SUPERHERO_API_KEY: 7cb82ece0739ea80bfb8d7a3a41116ff
+      DB_NAME: superheroes
+      DB_URL: db
       DB_USER: admin
       DB_PASSWORD: admin
     restart: unless-stopped
-
-  test:
-    build: .
-    command: >
-      sh -c "
-      pip install -r requirements-test.txt &&
-      python -m pytest /app/tests -v --tb=short
-      "
-    volumes:
-      - ./app:/app/app
-      - ./tests:/app/tests
-    depends_on:
-      - db
-    environment:
-      SUPERHERO_API_KEY:
-      DB_NAME: superhero
-      DB_URL: localhost
-      DB_USER: admin
-      DB_PASSWORD: admin
 
 volumes:
   postgres_data:

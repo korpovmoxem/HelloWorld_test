@@ -1,5 +1,3 @@
-from pathlib import Path
-
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -20,7 +18,12 @@ class Settings(BaseSettings):
 
 
     def get_database_url(self) -> str:
-        return f'postgresql+asyncpg:///./{self.DB_NAME}'
+        return (
+            f'postgresql+asyncpg://'
+            f'{self.DB_USER}:{self.DB_PASSWORD}@'
+            f'{self.DB_URL}/'
+            f'{self.DB_NAME}'
+        )
 
 
 settings = Settings()

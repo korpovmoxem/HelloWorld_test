@@ -5,10 +5,16 @@ import pytest
 from httpx import ASGITransport, AsyncClient
 
 from app.main import app
+from app.src.utils.database_funcs import create_tables
 
 
 with open(f'{os.path.dirname(os.path.abspath(__file__))}{os.sep}test_cases.json', 'r', encoding='utf-8') as file:
     test_cases = json.load(file)
+
+
+@pytest.mark.anyio
+async def setup_database():
+    await create_tables()
 
 
 @pytest.fixture(scope="module")

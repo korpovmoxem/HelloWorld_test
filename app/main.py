@@ -4,14 +4,12 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 
-from src.routes import router
-from src.utils.database_funcs import create_tables
+from app.src.routes import router
+from app.src.utils.database_funcs import create_tables
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    print('Запуск веб-приложения')
-    print('Инициализация БД')
     await create_tables()
     yield
 
